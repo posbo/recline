@@ -34,50 +34,61 @@ define(['backbone'], function ( Backbone ) {
                 }
             }
         },
-        // ### addFilter(filter)
-        //
-        // Add a new filter specified by the filter hash and append to the list of filters
-        //
-        // @param filter an object specifying the filter - see _filterTemplates for examples. If only type is provided will generate a filter by cloning _filterTemplates
+        /**
+        * Add a new filter specified by the filter hash and append to the list of filters
+        *
+        * @param {object} - an object specifying the filter - see _filterTemplates for examples. If only type is provided will generate a filter by cloning _filterTemplates
+        */
         addFilter: function(filter) {
             // crude deep copy
             var ourfilter = JSON.parse(JSON.stringify(filter));
             // not fully specified so use template and over-write
             if (_.keys(filter).length <= 3) {
-            ourfilter = _.defaults(ourfilter, this._filterTemplates[filter.type]);
+                ourfilter = _.defaults(ourfilter, this._filterTemplates[filter.type]);
             }
             var filters = this.get('filters');
             filters.push(ourfilter);
             this.trigger('change:filters:new-blank');
         },
-        updateFilter: function(index, value) {
-        },
-        // ### removeFilter
-        //
-        // Remove a filter from filters at index filterIndex
+        /**
+        * UpdateFilter
+        */
+        updateFilter: function() {},
+        /**
+        * Remove a filter from filters at index filterIndex
+        *
+        * @param {number} index
+        */
         removeFilter: function(filterIndex) {
             var filters = this.get('filters');
             filters.splice(filterIndex, 1);
             this.set({filters: filters});
             this.trigger('change');
         },
-        // ### addFacet
-        //
-        // Add a Facet to this query
-        //
-        // See <http://www.elasticsearch.org/guide/reference/api/search/facets/>
+        /**
+        * Add a Facet to this query
+        *
+        * @param {number} fieldId
+        * @see <http://www.elasticsearch.org/guide/reference/api/search/facets/>
+        */
         addFacet: function(fieldId) {
             var facets = this.get('facets');
             // Assume id and fieldId should be the same (TODO: this need not be true if we want to add two different type of facets on same field)
             if (_.contains(_.keys(facets), fieldId)) {
-            return;
+                return;
             }
             facets[fieldId] = {
-            terms: { field: fieldId }
+                terms: { field: fieldId }
             };
+
             this.set({facets: facets}, {silent: true});
             this.trigger('facet:add', this);
         },
+        /**
+        * Add an Histogram Facet
+        *
+        * @param {number} fieldId
+        */
         addHistogramFacet: function(fieldId) {
             var facets = this.get('facets');
             facets[fieldId] = {

@@ -1,13 +1,9 @@
-require(['core.js','./model/Dataset'], function ( Dataset ) {
-
-    recline = {
-        collection: {},
-        model: {},
-        view: {},
-        backend: {},
-        widget: {},
-    }
+require(['src/model/dataset']
 
 
-    console.log( Dataset );
+    var recline = {};
+
+
+    return recline;
+
 });

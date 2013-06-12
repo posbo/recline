@@ -1,16 +1,16 @@
-define([
-    'backbone',
-    '../collection/fieldList',
-    '../collection/recordList',
-    '../collection/facetList',
-    './facet',
-    './record',
-    './query'
-], function ( Backbone, FieldList, RecordList, Facet, Query ) {
+define(function ( require ) {
 
     "use strict";
 
-    var Deferred = ( typeof jQuery !== "undefined" && jQuery.Deferred ) || _.Deferred;
+    var Backbone = require('backbone'),
+        FieldList = require('../collection/fieldList'),
+        RecordList = require('../collection/recordList'),
+        FacetList = require('../collection/facetList'),
+        Facet = require('./facet'),
+        Record = require('./record'),
+        Query = require('./query'),
+        BackendMemory = require('../backend/memory'),
+        Deferred = ( typeof jQuery !== "undefined" && jQuery.Deferred ) || _.Deferred;
 
     return Backbone.Model.extend({
         constructor: function Dataset() {
@@ -26,7 +26,7 @@ define([
                 this.backend = this._backendFromString(this.get('backend'));
             } else { // try to guess backend ...
                 if ( this.get('records')) {
-                    this.backend = recline.Backend.Memory;
+                    this.backend = BackendMemory;
                 }
             }
 
@@ -50,7 +50,7 @@ define([
             // store will either be the backend or be a memory store if Backend fetch
             // tells us to use memory store
             this._store = this.backend;
-            if (this.backend === recline.Backend.Memory) {
+            if (this.backend === BackendMemory) {
                 this.fetch();
             }
         },
@@ -58,7 +58,7 @@ define([
             var self = this;
             var dfd = new Deferred();
 
-            if (this.backend !== recline.Backend.Memory) {
+            if (this.backend !== BackendMemory) {
                 this.backend.fetch(this.toJSON())
                     .done(handleResults)
                     .fail(function(args) {
@@ -82,7 +82,7 @@ define([
 
             var out = self._normalizeRecordsAndFields(results.records, fields);
             if (results.useMemoryStore) {
-                self._store = new recline.Backend.Memory.Store(out.records, out.fields);
+                self._store = new BackendMemory.Store(out.records, out.fields);
             }
 
             self.set(results.metadata);
@@ -104,7 +104,6 @@ define([
         *
         * @param {object} records
         * @param {object} fields
-        * @todo decide whether to keep orignal name as label { id: fieldId, label: field || fieldId }
         * @example
         *   fields = ['a', 'b', 'c'] and records = [ [1,2,3] ]
         *   fields = [ {id: a}, {id: b}, {id: c}], records = [ {a: 1}, {b: 2}, {c: 3}]
@@ -148,8 +147,10 @@ define([
                 return { id: fieldId };
             });
             }
-            // records is provided as arrays so need to zip together with fields
-            // NB: this requires you to have fields to match arrays
+            /*
+            * records is provided as arrays so need to zip together with fields
+            * NB: this requires you to have fields to match arrays
+            */
             if (records && records.length > 0 && records[0] instanceof Array) {
                 records = _.map(records, function(doc) {
                     var tmp = {};
@@ -170,16 +171,12 @@ define([
             // TODO: need to reset the changes ...
             return this._store.save(this._changes, this.toJSON());
         },
-
-  // ### query
-  //
-  // AJAX method with promise API to get records from the backend.
-  //
-  // It will query based on current query state (given by this.queryState)
-  // updated by queryObj (if provided).
-  //
-  // Resulting RecordList are used to reset this.records and are
-  // also returned.
+        /**
+        * XHR method with promise API to get records from the backend. It will query
+        * based on current query state (given by this.queryState) updated by queryObj
+        * (if provided). Resulting RecordList are used to reset this.records and are
+        * also returned.
+        */
         query: function(queryObj) {
             var self = this,
                 dfd = new Deferred();
@@ -232,12 +229,11 @@ define([
             data.fields = this.fields.toJSON();
             return data;
         },
-
-        // ### getFieldsSummary
-        //
-        // Get a summary for each field in the form of a `Facet`.
-        //
-        // @return null as this is async function. Provides deferred/promise interface.
+        /**
+        * Get a summary for each field in the form of a `Facet`.
+        *
+        * @return {object} Deferred
+        */
         getFieldsSummary: function() {
             var self = this;
             var query = new Query();
@@ -259,13 +255,18 @@ define([
             });
             return dfd.promise();
         },
-        // Deprecated (as of v0.5) - use record.summary()
+        /**
+        * Return record summary
+        *
+        * @deprecated use record.summary()
+        */
         recordSummary: function(record) {
             return record.summary();
         },
-        // ### _backendFromString(backendString)
-        //
-        // Look up a backend module from a backend string (look in recline.Backend)
+        /**
+        * Look up a backend module from a backend string (look in recline.Backend)
+        *
+        */
         _backendFromString: function(backendString) {
             var backend = null;
             if (recline && recline.Backend) {
