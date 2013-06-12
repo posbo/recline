@@ -1,4 +1,4 @@
-define(['backbone','../collection/facetList'], function ( Backbone, FacetList ) {
+define(['backbone','src/collection.facetList'], function ( Backbone, FacetList ) {
     return Backbone.Model.extend({
         constructor: function Field() {
             Backbone.Model.prototype.constructor.apply(this, arguments);

@@ -1,7 +1,3 @@
-// this.recline = this.recline || {};
-// this.recline.Backend = this.recline.Backend || {};
-// this.recline.Backend.Memory = this.recline.Backend.Memory || {};
-
 define(function() {
   "use strict";
 

@@ -1,8 +1,8 @@
-define(['backbone','../model/record'], function ( Backbone, Record ) {
+define(['backbone','src/model.field'], function ( Backbone, Field ) {
     return Backbone.Collection.extend({
-        constructor: function RecordList() {
+        constructor: function FieldList() {
             Backbone.Collection.prototype.constructor.apply(this, arguments);
         },
-        model: Record
+        model: Field
     });
 });

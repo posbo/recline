@@ -1,15 +1,16 @@
-define(['recline'], function ( recline ) {
+define([
+    'backbone',
+    'src/collection.field_list',
+    'src/collection.record_list',
+    'src/collection.facet_list',
+    'src/model.facet',
+    'src/model.record',
+    'src/model.query',
+    'src/backend.memory'
+], function ( Backbone, FieldList, RecordList, FacetList, Facet, Record, Query, BackendMemory )
 
     "use strict";
 
-    var Backbone = require('backbone'),
-        FieldList = require('../collection/fieldList'),
-        RecordList = require('../collection/recordList'),
-        FacetList = require('../collection/facetList'),
-        Facet = require('./facet'),
-        Record = require('./record'),
-        Query = require('./query'),
-        BackendMemory = require('../backend/memory'),
         Deferred = ( typeof jQuery !== "undefined" && jQuery.Deferred ) || _.Deferred;
 
     return Backbone.Model.extend({
