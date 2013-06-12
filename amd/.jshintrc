@@ -29,6 +29,7 @@
     "suite":true,
     "sinon": true,
     "before": true,
-    "after": true
+    "after": true,
+    "recline": true
   }
 }

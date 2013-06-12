@@ -1,4 +1,4 @@
-define(function() {
+define(['src/model.facet'], function( Facet ) {
   "use strict";
 
     var Deferred = (typeof jQuery !== "undefined" && jQuery.Deferred) || _.Deferred;
@@ -57,17 +57,16 @@ define(function() {
 
             /**
             * Save
+            * TODO _.each(changes.creates) { ... }
             */
             this.save = function(changes, dataset) {
-                var self = this;
                 var dfd = new Deferred();
-                // TODO _.each(changes.creates) { ... }
                 _.each(changes.updates, function(record) {
-                    self.update(record);
-                });
+                    this.update(record);
+                }, this);
                 _.each(changes.deletes, function(record) {
-                    self.remove(record);
-                });
+                    this.remove(record);
+                }, this);
                 dfd.resolve();
                 return dfd.promise();
             };
@@ -84,16 +83,16 @@ define(function() {
                 results = this._applyFilters(results, queryObj);
                 results = this._applyFreeTextQuery(results, queryObj);
 
-                // TODO: this is not complete sorting!
                 // What's wrong is we sort on the *last* entry in the sort list if there are multiple sort criteria
                 _.each(queryObj.sort, function(sortObj) {
                     var fieldName = sortObj.field;
+
                     results = _.sortBy(results, function(doc) {
-                    var _out = doc[fieldName];
-                    return _out;
+                        return doc[fieldName];
                     });
-                    if (sortObj.order == 'desc') {
-                    results.reverse();
+
+                    if (sortObj.order === 'desc') {
+                        results.reverse();
                     }
                 });
 
@@ -234,7 +233,7 @@ define(function() {
             }
             _.each(queryObj.facets, function(query, facetId) {
                 // TODO: remove dependency on recline.Model
-                facetResults[facetId] = new recline.Model.Facet({id: facetId}).toJSON();
+                facetResults[facetId] = new Facet({id: facetId}).toJSON();
                 facetResults[facetId].termsall = {};
             });
             // faceting
@@ -267,6 +266,6 @@ define(function() {
             return facetResults;
 
             };
-        };
+      }
     };
 });

@@ -7,7 +7,7 @@ define([
     'src/model.record',
     'src/model.query',
     'src/backend.memory'
-], function ( Backbone, FieldList, RecordList, FacetList, Facet, Record, Query, BackendMemory )
+], function ( Backbone, FieldList, RecordList, FacetList, Facet, Record, Query, BackendMemory ) {
 
     "use strict";
 

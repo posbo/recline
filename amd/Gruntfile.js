@@ -32,7 +32,7 @@ module.exports = function(grunt) {
                 hostname: '127.0.0.1',
                 port: 8000,
                 base: '.',
-                keepalive:false
+                keepalive: true
             }
         }
     },
