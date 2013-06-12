@@ -1,0 +1,43 @@
+{
+  "name": "recline-amd",
+  "preferGlobal": true,
+  "version": "0.1.0",
+  "author": "Paul Osborne",
+  "description": "AMD version of ReclineJS",
+  "contributors": [
+    {
+      "name": "Paul Osborne",
+      "email": "paul.osborne.uk@gmail.com",
+      "url": "posbo.me"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/posbo/recline.git"
+  },
+  "engines": {
+    "node": ">=0.6"
+  },
+  "scripts": {
+    "pretest": "bower install",
+    "test": "grunt"
+  },
+  "dependencies": {},
+  "analyze": false,
+  "devDependencies": {
+    "mocha": "~1.9.0",
+    "sinon": "~1.7.2",
+    "chai": "~1.6.0",
+    "sinon-chai": "~2.4.0",
+    "grunt": "~0.4.1",
+    "bower": "~0.9.2",
+    "grunt-contrib-connect": "~0.3.0",
+    "grunt-contrib-watch": "~0.4.3",
+    "grunt-mocha": "~0.3.1",
+    "grunt-contrib-jshint": "~0.4.3",
+    "grunt-contrib-requirejs": "~0.4.0"
+  },
+  "bundledDependencies": [],
+  "license": "MIT",
+  "keywords": []
+}

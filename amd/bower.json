@@ -1,0 +1,31 @@
+{
+  "name": "recline-amd",
+  "version": "0.1.0",
+  "description": "AMD version of ReclineJS",
+  "main": "dist/recline.amd.js",
+  "homepage": "https://github.com/posbo/recline",
+  "bugs": "https://github.com/posbo/recline/issues",
+  "author": {
+    "name": "Paul Osborne",
+    "email": "paul.osborne.uk@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/posbo/recline.git"
+  },
+  "dependencies": {
+    "backbone-amd":"backbone-amd",
+    "lodash": "lodash",
+    "requirejs": "requirejs",
+    "jquery": "1.9.1",
+    "es5-shim": "~2.1.0"
+  },
+  "licenses": [
+    {
+      "type": "MIT"
+    }
+  ],
+  "ignore": [
+    "node_modules"
+  ]
+}

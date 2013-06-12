@@ -1,4 +1,4 @@
-define(function ( require ) {
+define(['recline'], function ( recline ) {
 
     "use strict";
 

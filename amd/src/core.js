@@ -1,0 +1,4 @@
+define({
+    debug: true
+});
+
